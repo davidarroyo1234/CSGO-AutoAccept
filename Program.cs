@@ -55,6 +55,7 @@ namespace AutoAccept_CSGO4
 
         public void Init()
         {
+           
             while (true)
             {
                 Thread.Sleep(100);
@@ -82,15 +83,19 @@ namespace AutoAccept_CSGO4
                 Thread.Sleep(100);
             }
         }
-
+        private int _xbck = 0;
+        private int _ybck = 0;
+        private int _contador2 = 0;
 
         public void BuscarPixel()
         {
+            
+            
             bool salir = false;
             int contador = 0;
             Console.WriteLine("Buscando boton");
             Color color = Color.FromArgb(76, 175, 80);
-            Color color2 = Color.FromArgb(76, 175, 80);
+            Color color2 = Color.FromArgb(90, 203, 94);
 
             Bitmap bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             Graphics graphics = Graphics.FromImage(bitmap);
@@ -101,16 +106,43 @@ namespace AutoAccept_CSGO4
                 {
                     Color searchPixel = bitmap.GetPixel(x, y);
 
-                    if (searchPixel == color || searchPixel == color2)
+                    if (searchPixel == color)
                     {
+
                         if (contador >= 100)
                         {
-                            Console.WriteLine("Boton encontrado");
-                            Console.WriteLine("Pulsando boton");
-                            ClickF(x, y);
-                            Thread.Sleep(5000);
+                            if (_xbck != x && _ybck != y)
+                            {
+                                SetCursorPos(x, y);
+                            }
+                            Thread.Sleep(200);
+                            
+                            
+                            Bitmap bitmap2 = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                            Graphics graphics2 = Graphics.FromImage(bitmap2);
+                            graphics2.CopyFromScreen(0, 0, 0, 0, bitmap2.Size);
+                            Color searchPixel2 = bitmap2.GetPixel(x, y);
+                            if (searchPixel2 == color2)
+                            {
+                                SetCursorPos(x, y);
+                                Console.WriteLine("Boton encontrado");
+                                Console.WriteLine("Pulsando boton");
+                                ClickF(x, y);
+                                Thread.Sleep(1000);
+                            }
+                            
+                            if (_contador2 <= 1)
+                            {
+                                _xbck = x;
+                                _ybck = y;
+                            }
+
+                            _contador2++;
+
                             salir = true;
                             break;
+                            
+               
                         }
                         contador++;
                     }
@@ -120,11 +152,13 @@ namespace AutoAccept_CSGO4
 
         public void ClickF(int x, int y)
         {
+            Console.WriteLine("INTENTANDO CLICK");
+            SetCursorPos(x, y);
+            Thread.Sleep(50);
             SetCursorPos(x, y);
             mouse_event(LEFTMOUSE_CLICKDOWN, 0, 0, 0, 0);
             mouse_event(LEFTMOUSE_CLICKUP, 0, 0, 0, 0);
-            mouse_event(LEFTMOUSE_CLICKDOWN, 0, 0, 0, 0);
-            mouse_event(LEFTMOUSE_CLICKUP, 0, 0, 0, 0);
+            
         }
     }
 }
