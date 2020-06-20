@@ -90,12 +90,6 @@ namespace AutoAccept_CSGO4
 
         public void BuscarPixel()
         {
-
-            Thread.Sleep(4000);
-            
-            AfkCommands left = new AfkCommands();
-            left.PlusLeft();
-            
             bool salir = false;
             int contador = 0;
             Console.WriteLine("Buscando boton");
