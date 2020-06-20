@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading;
 using AutoAccept_CSGO3.HideChecker;
+using AutoAccept_CSGO4.AntiAFK;
 using Gma.System.MouseKeyHook;
 
 
@@ -89,7 +90,11 @@ namespace AutoAccept_CSGO4
 
         public void BuscarPixel()
         {
+
+            Thread.Sleep(4000);
             
+            AfkCommands left = new AfkCommands();
+            left.PlusLeft();
             
             bool salir = false;
             int contador = 0;
