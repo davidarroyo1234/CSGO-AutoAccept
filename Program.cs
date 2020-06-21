@@ -106,7 +106,7 @@ namespace AutoAccept_CSGO4
                 {
                     Color searchPixel = bitmap.GetPixel(x, y);
 
-                    if (searchPixel == color)
+                    if (searchPixel == color || searchPixel == color2)
                     {
 
                         if (contador >= 100)
