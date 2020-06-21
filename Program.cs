@@ -17,7 +17,7 @@ namespace AutoAccept_CSGO4
         private static extern void mouse_event(uint dwflags, uint dx, uint dy, uint dwData, uint dwExtraInf);
 
         [DllImport("user32.dll")]
-        private static extern bool SetCursorPos(int x, int y);
+        public static extern bool SetCursorPos(int x, int y);
 
 
         [DllImport("user32.dll")]
@@ -56,14 +56,15 @@ namespace AutoAccept_CSGO4
 
         public void Init()
         {
+    
            
             while (true)
             {
                 Thread.Sleep(100);
-
-
+            
+            
                 CSGOopenChecker csgOopenChecker = new CSGOopenChecker();
-
+            
                 if (csgOopenChecker.Minimizado() == -1)
                 {
                     Console.WriteLine("Abre el csgo para empezar");
@@ -72,14 +73,14 @@ namespace AutoAccept_CSGO4
                 {
                     Console.WriteLine("Desminimiza el csgo");
                 }
-
-
+            
+            
                 while (csgOopenChecker.Minimizado() != 0)
                 {
                     Thread.Sleep(300);
                 }
-
-
+            
+            
                 BuscarPixel();
                 Thread.Sleep(100);
             }
@@ -140,8 +141,6 @@ namespace AutoAccept_CSGO4
 
                             salir = true;
                             break;
-                            
-               
                         }
                         contador++;
                     }
@@ -157,6 +156,13 @@ namespace AutoAccept_CSGO4
             SetCursorPos(x, y);
             mouse_event(LEFTMOUSE_CLICKDOWN, 0, 0, 0, 0);
             mouse_event(LEFTMOUSE_CLICKUP, 0, 0, 0, 0);
+            AfkCommands lol = new AfkCommands();
+            Thread.Sleep(200);
+            
+            
+            lol.PlusLeft();
+            Thread.Sleep(250);
+            lol.PlusForward();
             
         }
     }
