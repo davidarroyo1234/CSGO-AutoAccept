@@ -210,7 +210,7 @@ namespace AutoAccept_CSGO4.AntiAFK
             SendKeys.SendWait("{A}");
             SendKeys.SendWait("{R}");
             SendKeys.SendWait("{D}");
-            Thread.Sleep(40);
+            Thread.Sleep(70);
             Send(ScanCodeShort.RETURN);
             ReleaseKey(ScanCodeShort.RETURN);
             
