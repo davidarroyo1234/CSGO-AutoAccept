@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading;
@@ -48,23 +50,25 @@ namespace AutoAccept_CSGO4
         private const UInt32 LEFTMOUSE_CLICKDOWN = 0x0002;
         private const UInt32 LEFTMOUSE_CLICKUP = 0x0004;
 
-
+        private string[] argumentos;
         public static void Main(string[] args)
         {
-            new Program().Init();
+            
+            new Program().Init(args);
         }
 
-        public void Init()
+        private bool beep = false;
+
+        public void Init(string[] args)
         {
-    
-           
+            argumentos = args;
             while (true)
             {
                 Thread.Sleep(100);
-            
-            
+
+
                 CSGOopenChecker csgOopenChecker = new CSGOopenChecker();
-            
+
                 if (csgOopenChecker.Minimizado() == -1)
                 {
                     Console.WriteLine("Abre el csgo para empezar");
@@ -73,18 +77,28 @@ namespace AutoAccept_CSGO4
                 {
                     Console.WriteLine("Desminimiza el csgo");
                 }
-            
-            
+
+
                 while (csgOopenChecker.Minimizado() != 0)
                 {
                     Thread.Sleep(300);
                 }
-            
-            
+
+                if (!beep)
+                {
+                    SoundPlayer player = new SoundPlayer();
+                    player.SoundLocation = Environment.CurrentDirectory + "/Media/beep.wav";
+                    player.PlaySync();
+                    Thread.Sleep(200);
+                    player.Stop();
+                    beep = true;
+                }
+
                 BuscarPixel();
                 Thread.Sleep(100);
             }
         }
+
         private int _xbck = 0;
         private int _ybck = 0;
         private int _contador2 = 0;
@@ -108,17 +122,18 @@ namespace AutoAccept_CSGO4
 
                     if (searchPixel == color || searchPixel == color2)
                     {
-
                         if (contador >= 100)
                         {
                             if (_xbck != x && _ybck != y)
                             {
                                 SetCursorPos(x, y);
                             }
+
                             Thread.Sleep(200);
-                            
-                            
-                            Bitmap bitmap2 = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+
+                            Bitmap bitmap2 = new Bitmap(Screen.PrimaryScreen.Bounds.Width,
+                                Screen.PrimaryScreen.Bounds.Height);
                             Graphics graphics2 = Graphics.FromImage(bitmap2);
                             graphics2.CopyFromScreen(0, 0, 0, 0, bitmap2.Size);
                             Color searchPixel2 = bitmap2.GetPixel(x, y);
@@ -130,7 +145,7 @@ namespace AutoAccept_CSGO4
                                 ClickF(x, y);
                                 Thread.Sleep(1000);
                             }
-                            
+
                             if (_contador2 <= 1)
                             {
                                 _xbck = x;
@@ -142,6 +157,7 @@ namespace AutoAccept_CSGO4
                             salir = true;
                             break;
                         }
+
                         contador++;
                     }
                 }
@@ -158,11 +174,25 @@ namespace AutoAccept_CSGO4
             mouse_event(LEFTMOUSE_CLICKUP, 0, 0, 0, 0);
             AfkCommands lol = new AfkCommands();
             Thread.Sleep(200);
+
+            foreach (var argu in argumentos)
+            {
+                if (argu.ToLower().Equals("+left"))
+                {
+                    lol.PlusLeft();
+                    Console.WriteLine("Activado +left");
+                    Thread.Sleep(250);
+                }
+
+                else if (argu.ToLower().Equals("+forward"))
+                {
+                    lol.PlusForward();
+                    Console.WriteLine("Activado +forward");
+                    Thread.Sleep(250);
+                }
+            }
             
             
-            lol.PlusLeft();
-            Thread.Sleep(250);
-            lol.PlusForward();
             
         }
     }
