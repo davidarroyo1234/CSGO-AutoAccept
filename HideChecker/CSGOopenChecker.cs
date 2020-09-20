@@ -11,6 +11,7 @@ namespace AutoAccept_CSGO3.HideChecker
         [DllImport("User32.Dll")]
         private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
         [DllImport("User32.Dll")]
+        
         private static extern bool IsIconic(IntPtr hWnd);
 
         

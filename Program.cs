@@ -122,7 +122,7 @@ namespace AutoAccept_CSGO4
 
                     if (searchPixel == color || searchPixel == color2)
                     {
-                        if (contador >= 100)
+                        if (contador >= 9000)
                         {
                             if (_xbck != x && _ybck != y)
                             {
