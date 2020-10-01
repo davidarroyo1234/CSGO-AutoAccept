@@ -25,10 +25,7 @@ namespace AutoAccept_CSGO4.AntiAFK
             public uint type;
             public InputUnion U;
 
-            public static int Size
-            {
-                get { return Marshal.SizeOf(typeof(INPUT)); }
-            }
+            public static int Size => Marshal.SizeOf(typeof(INPUT));
         }
 
         // Declare the InputUnion struct
@@ -145,7 +142,7 @@ namespace AutoAccept_CSGO4.AntiAFK
             {
                 Send(ScanCodeShort.KEY_K);
                 ReleaseKey(ScanCodeShort.KEY_K);
-                Console.WriteLine("INTANDO PULSAR LETRA K OSTIA");
+                Console.WriteLine("Trying to press the key...");
                 Thread.Sleep(200);
             }
 
@@ -169,7 +166,7 @@ namespace AutoAccept_CSGO4.AntiAFK
             {
                 Send(ScanCodeShort.KEY_K);
                 ReleaseKey(ScanCodeShort.KEY_K);
-                Console.WriteLine("INTANDO PULSAR LETRA K OSTIA");
+                Console.WriteLine("Trying to press the key...");
                 Thread.Sleep(200);
             }
 
@@ -193,7 +190,7 @@ namespace AutoAccept_CSGO4.AntiAFK
             {
                 Send(ScanCodeShort.KEY_K);
                 ReleaseKey(ScanCodeShort.KEY_K);
-                Console.WriteLine("INTANDO PULSAR LETRA K OSTIA");
+                Console.WriteLine("Trying to press the key...");
                 Thread.Sleep(200);
             }
 
@@ -220,7 +217,7 @@ namespace AutoAccept_CSGO4.AntiAFK
             {
                 Send(ScanCodeShort.KEY_K);
                 ReleaseKey(ScanCodeShort.KEY_K);
-                Console.WriteLine("INTANDO PULSAR LETRA K OSTIA");
+                Console.WriteLine("Trying to press the key...");
                 Thread.Sleep(200);
             }
 
@@ -244,7 +241,7 @@ namespace AutoAccept_CSGO4.AntiAFK
         public bool ConsolaAbiertaCheck()
         {
             var contador = 0;
-            Console.WriteLine("Comprobando consola");
+            Console.WriteLine("Checking console...");
             var color = Color.FromArgb(62, 62, 62);
             var bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             var graphics = Graphics.FromImage(bitmap);

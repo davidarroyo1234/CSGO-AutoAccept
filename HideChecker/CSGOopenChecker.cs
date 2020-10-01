@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace AutoAccept_CSGO4.HideChecker
 {
-    public class CSGOopenChecker
+    public class CsgOopenChecker
     {
         [DllImport("User32.Dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);

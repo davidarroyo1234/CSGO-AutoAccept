@@ -18,18 +18,14 @@ namespace AutoAccept_CSGO4
         [DllImport("user32.dll")]
         public static extern bool SetCursorPos(int x, int y);
 
-
         [DllImport("user32.dll")]
         static extern bool GetCursorPos(out Point lpPoint);
-
 
         private struct Point
         {
             public int X;
             public int Y;
         }
-
-        static int _x, _y;
 
         private const uint LEFTMOUSE_CLICKDOWN = 0x0002;
         private const uint LEFTMOUSE_CLICKUP = 0x0004;
@@ -41,7 +37,7 @@ namespace AutoAccept_CSGO4
             new Program().Init(args);
         }
 
-        private bool beep;
+        private bool _beep;
 
         private void Init(string[] args)
         {
@@ -50,7 +46,7 @@ namespace AutoAccept_CSGO4
             {
                 Thread.Sleep(100);
                 
-                var csgOopenChecker = new CSGOopenChecker();
+                var csgOopenChecker = new CsgOopenChecker();
 
                 if (csgOopenChecker.Minimizado() == -1)
                 {
@@ -66,7 +62,7 @@ namespace AutoAccept_CSGO4
                     Thread.Sleep(300);
                 }
 
-                if (!beep)
+                if (!_beep)
                 {
                     var player = new SoundPlayer
                     {
@@ -76,7 +72,7 @@ namespace AutoAccept_CSGO4
                     player.PlaySync();
                     Thread.Sleep(200);
                     player.Stop();
-                    beep = true;
+                    _beep = true;
                 }
 
                 BuscarPixel();
@@ -92,7 +88,7 @@ namespace AutoAccept_CSGO4
         {
             var salir = false;
             var contador = 0;
-            Console.WriteLine("Buscando boton");
+            Console.WriteLine("Searching button...");
             var color = Color.FromArgb(76, 175, 80);
             var color2 = Color.FromArgb(90, 203, 94);
 
@@ -125,8 +121,7 @@ namespace AutoAccept_CSGO4
                             if (searchPixel2 == color2)
                             {
                                 SetCursorPos(x, y);
-                                Console.WriteLine("Boton encontrado");
-                                Console.WriteLine("Pulsando boton");
+                                Console.WriteLine("Button found! Pressing...");
                                 ClickF(x, y);
                                 Thread.Sleep(1000);
                             }
@@ -151,7 +146,7 @@ namespace AutoAccept_CSGO4
 
         private void ClickF(int x, int y)
         {
-            Console.WriteLine("INTENTANDO CLICK");
+            Console.WriteLine("Clicking...");
             SetCursorPos(x, y);
             Thread.Sleep(50);
             SetCursorPos(x, y);
@@ -165,14 +160,14 @@ namespace AutoAccept_CSGO4
                 if (argu.ToLower().Equals("+left"))
                 {
                     lol.PlusLeft();
-                    Console.WriteLine("Activado +left");
+                    Console.WriteLine("Enabled +left");
                     Thread.Sleep(250);
                 }
 
                 else if (argu.ToLower().Equals("+forward"))
                 {
                     lol.PlusForward();
-                    Console.WriteLine("Activado +forward");
+                    Console.WriteLine("Enabled +forward");
                     Thread.Sleep(250);
                 }
             }
