@@ -17,18 +17,12 @@ namespace AutoAccept_CSGO4.HideChecker
         
         public int Minimizado()
         {
-            Process[] processes = Process.GetProcessesByName("csgo");
-            if (processes.Length == 1)
-            {
-                IntPtr hWnd = processes[0].MainWindowHandle;
+            var processes = Process.GetProcessesByName("csgo");
+            if (processes.Length != 1) return -1;
+            
+            var hWnd = processes[0].MainWindowHandle;
 
-                if (IsIconic(hWnd))
-                {
-                    return 1;
-                }
-                return 0;
-            }
-            return -1;
+            return IsIconic(hWnd) ? 1 : 0;
         }
     }
 }

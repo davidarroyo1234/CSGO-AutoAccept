@@ -243,28 +243,24 @@ namespace AutoAccept_CSGO4.AntiAFK
 
         public bool ConsolaAbiertaCheck()
         {
-            bool salir = false;
-            int contador = 0;
+            var contador = 0;
             Console.WriteLine("Comprobando consola");
-            Color color = Color.FromArgb(62, 62, 62);
-            Bitmap bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-            Graphics graphics = Graphics.FromImage(bitmap);
+            var color = Color.FromArgb(62, 62, 62);
+            var bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            var graphics = Graphics.FromImage(bitmap);
             graphics.CopyFromScreen(0, 0, 0, 0, bitmap.Size);
 
-            for (int x = 0; x < bitmap.Width; x++)
+            for (var x = 0; x < bitmap.Width; x++)
             {
-                for (int y = 0; y < bitmap.Height && !salir; y++)
+                for (var y = 0; y < bitmap.Height; y++)
                 {
-                    Color searchPixel = bitmap.GetPixel(x, y);
+                    var searchPixel = bitmap.GetPixel(x, y);
 
                     if (searchPixel == color)
                     {
-
                         if (contador >= 100)
                         {
-                            
                             return true;
-
                         }
                         contador++;
                     }

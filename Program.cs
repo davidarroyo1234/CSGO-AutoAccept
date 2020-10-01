@@ -1,14 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Media;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading;
 using AutoAccept_CSGO4.HideChecker;
 using AutoAccept_CSGO4.AntiAFK;
-using Gma.System.MouseKeyHook;
 
 
 namespace AutoAccept_CSGO4
@@ -23,10 +20,10 @@ namespace AutoAccept_CSGO4
 
 
         [DllImport("user32.dll")]
-        static extern bool GetCursorPos(out POINT lpPoint);
+        static extern bool GetCursorPos(out Point lpPoint);
 
 
-        public struct POINT
+        private struct Point
         {
             public int X;
             public int Y;
@@ -34,8 +31,8 @@ namespace AutoAccept_CSGO4
 
         static int _x, _y;
 
-        private const UInt32 LEFTMOUSE_CLICKDOWN = 0x0002;
-        private const UInt32 LEFTMOUSE_CLICKUP = 0x0004;
+        private const uint LEFTMOUSE_CLICKDOWN = 0x0002;
+        private const uint LEFTMOUSE_CLICKUP = 0x0004;
 
         private string[] argumentos;
         public static void Main(string[] args)
@@ -46,15 +43,14 @@ namespace AutoAccept_CSGO4
 
         private bool beep;
 
-        public void Init(string[] args)
+        private void Init(string[] args)
         {
             argumentos = args;
             while (true)
             {
                 Thread.Sleep(100);
-
-
-                CSGOopenChecker csgOopenChecker = new CSGOopenChecker();
+                
+                var csgOopenChecker = new CSGOopenChecker();
 
                 if (csgOopenChecker.Minimizado() == -1)
                 {
@@ -65,7 +61,6 @@ namespace AutoAccept_CSGO4
                     Console.WriteLine("Desminimiza el csgo");
                 }
 
-
                 while (csgOopenChecker.Minimizado() != 0)
                 {
                     Thread.Sleep(300);
@@ -73,8 +68,11 @@ namespace AutoAccept_CSGO4
 
                 if (!beep)
                 {
-                    SoundPlayer player = new SoundPlayer();
-                    player.SoundLocation = Environment.CurrentDirectory + "/Media/beep.wav";
+                    var player = new SoundPlayer
+                    {
+                        SoundLocation = Environment.CurrentDirectory + "/Media/beep.wav"
+                    };
+                    
                     player.PlaySync();
                     Thread.Sleep(200);
                     player.Stop();
@@ -90,22 +88,22 @@ namespace AutoAccept_CSGO4
         private int _ybck;
         private int _contador2;
 
-        public void BuscarPixel()
+        private void BuscarPixel()
         {
-            bool salir = false;
-            int contador = 0;
+            var salir = false;
+            var contador = 0;
             Console.WriteLine("Buscando boton");
-            Color color = Color.FromArgb(76, 175, 80);
-            Color color2 = Color.FromArgb(90, 203, 94);
+            var color = Color.FromArgb(76, 175, 80);
+            var color2 = Color.FromArgb(90, 203, 94);
 
-            Bitmap bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-            Graphics graphics = Graphics.FromImage(bitmap);
+            var bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            var graphics = Graphics.FromImage(bitmap);
             graphics.CopyFromScreen(0, 0, 0, 0, bitmap.Size);
-            for (int x = 0; x < bitmap.Width; x++)
+            for (var x = 0; x < bitmap.Width; x++)
             {
-                for (int y = 0; y < bitmap.Height && !salir; y++)
+                for (var y = 0; y < bitmap.Height && !salir; y++)
                 {
-                    Color searchPixel = bitmap.GetPixel(x, y);
+                    var searchPixel = bitmap.GetPixel(x, y);
 
                     if (searchPixel == color || searchPixel == color2)
                     {
@@ -119,11 +117,11 @@ namespace AutoAccept_CSGO4
                             Thread.Sleep(200);
 
 
-                            Bitmap bitmap2 = new Bitmap(Screen.PrimaryScreen.Bounds.Width,
+                            var bitmap2 = new Bitmap(Screen.PrimaryScreen.Bounds.Width,
                                 Screen.PrimaryScreen.Bounds.Height);
-                            Graphics graphics2 = Graphics.FromImage(bitmap2);
+                            var graphics2 = Graphics.FromImage(bitmap2);
                             graphics2.CopyFromScreen(0, 0, 0, 0, bitmap2.Size);
-                            Color searchPixel2 = bitmap2.GetPixel(x, y);
+                            var searchPixel2 = bitmap2.GetPixel(x, y);
                             if (searchPixel2 == color2)
                             {
                                 SetCursorPos(x, y);
@@ -151,7 +149,7 @@ namespace AutoAccept_CSGO4
             }
         }
 
-        public void ClickF(int x, int y)
+        private void ClickF(int x, int y)
         {
             Console.WriteLine("INTENTANDO CLICK");
             SetCursorPos(x, y);
@@ -159,7 +157,7 @@ namespace AutoAccept_CSGO4
             SetCursorPos(x, y);
             mouse_event(LEFTMOUSE_CLICKDOWN, 0, 0, 0, 0);
             mouse_event(LEFTMOUSE_CLICKUP, 0, 0, 0, 0);
-            AfkCommands lol = new AfkCommands();
+            var lol = new AfkCommands();
             Thread.Sleep(200);
 
             foreach (var argu in argumentos)
