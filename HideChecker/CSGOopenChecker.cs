@@ -1,8 +1,8 @@
-﻿﻿using System;
+﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace AutoAccept_CSGO3.HideChecker
+namespace AutoAccept_CSGO4.HideChecker
 {
     public class CSGOopenChecker
     {

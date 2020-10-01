@@ -6,7 +6,7 @@ using System.Media;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading;
-using AutoAccept_CSGO3.HideChecker;
+using AutoAccept_CSGO4.HideChecker;
 using AutoAccept_CSGO4.AntiAFK;
 using Gma.System.MouseKeyHook;
 
@@ -34,19 +34,6 @@ namespace AutoAccept_CSGO4
 
         static int _x, _y;
 
-        static void ShowMousePosition()
-        {
-            POINT point;
-            if (GetCursorPos(out point) && point.X != _x && point.Y != _y)
-            {
-                Console.Clear();
-                Console.WriteLine("({0},{1})", point.X, point.Y);
-                _x = point.X;
-                _y = point.Y;
-            }
-        }
-
-
         private const UInt32 LEFTMOUSE_CLICKDOWN = 0x0002;
         private const UInt32 LEFTMOUSE_CLICKUP = 0x0004;
 
@@ -57,7 +44,7 @@ namespace AutoAccept_CSGO4
             new Program().Init(args);
         }
 
-        private bool beep = false;
+        private bool beep;
 
         public void Init(string[] args)
         {
@@ -99,9 +86,9 @@ namespace AutoAccept_CSGO4
             }
         }
 
-        private int _xbck = 0;
-        private int _ybck = 0;
-        private int _contador2 = 0;
+        private int _xbck;
+        private int _ybck;
+        private int _contador2;
 
         public void BuscarPixel()
         {
@@ -191,9 +178,6 @@ namespace AutoAccept_CSGO4
                     Thread.Sleep(250);
                 }
             }
-            
-            
-            
         }
     }
 }
