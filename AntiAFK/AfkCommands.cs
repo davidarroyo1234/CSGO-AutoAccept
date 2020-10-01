@@ -9,8 +9,6 @@ namespace AutoAccept_CSGO4.AntiAFK
 {
     public class AfkCommands
     {
-
-
         /// <summary>
         /// Declaration of external SendInput method
         /// </summary>
@@ -20,7 +18,6 @@ namespace AutoAccept_CSGO4.AntiAFK
             [MarshalAs(UnmanagedType.LPArray), In] INPUT[] pInputs,
             int cbSize);
 
-
         // Declare the INPUT struct
         [StructLayout(LayoutKind.Sequential)]
         public struct INPUT
@@ -28,10 +25,7 @@ namespace AutoAccept_CSGO4.AntiAFK
             public uint type;
             public InputUnion U;
 
-            public static int Size
-            {
-                get { return Marshal.SizeOf(typeof(INPUT)); }
-            }
+            public static int Size => Marshal.SizeOf(typeof(INPUT));
         }
 
         // Declare the InputUnion struct
@@ -119,9 +113,7 @@ namespace AutoAccept_CSGO4.AntiAFK
             internal short wParamL;
             internal short wParamH;
         }
-        
-        
-        
+
         public void Send(ScanCodeShort a)
         {
             INPUT[] Inputs = new INPUT[1];
@@ -150,11 +142,10 @@ namespace AutoAccept_CSGO4.AntiAFK
             {
                 Send(ScanCodeShort.KEY_K);
                 ReleaseKey(ScanCodeShort.KEY_K);
-                Console.WriteLine("INTANDO PULSAR LETRA K OSTIA");
+                Console.WriteLine("Trying to press the key...");
                 Thread.Sleep(200);
             }
-            
-            
+
             SendKeys.SendWait("{+}");
             SendKeys.SendWait("{L}");
             SendKeys.SendWait("{E}");
@@ -163,7 +154,7 @@ namespace AutoAccept_CSGO4.AntiAFK
             Thread.Sleep(40);
             Send(ScanCodeShort.RETURN);
             ReleaseKey(ScanCodeShort.RETURN);
-            
+
             Thread.Sleep(40);
             Send(ScanCodeShort.ESCAPE);
             ReleaseKey(ScanCodeShort.ESCAPE);
@@ -175,9 +166,10 @@ namespace AutoAccept_CSGO4.AntiAFK
             {
                 Send(ScanCodeShort.KEY_K);
                 ReleaseKey(ScanCodeShort.KEY_K);
-                Console.WriteLine("INTANDO PULSAR LETRA K OSTIA");
+                Console.WriteLine("Trying to press the key...");
                 Thread.Sleep(200);
             }
+
             SendKeys.SendWait("{-}");
             SendKeys.SendWait("{L}");
             SendKeys.SendWait("{E}");
@@ -186,7 +178,7 @@ namespace AutoAccept_CSGO4.AntiAFK
             Thread.Sleep(40);
             Send(ScanCodeShort.RETURN);
             ReleaseKey(ScanCodeShort.RETURN);
-            
+
             Thread.Sleep(40);
             Send(ScanCodeShort.ESCAPE);
             ReleaseKey(ScanCodeShort.ESCAPE);
@@ -198,10 +190,10 @@ namespace AutoAccept_CSGO4.AntiAFK
             {
                 Send(ScanCodeShort.KEY_K);
                 ReleaseKey(ScanCodeShort.KEY_K);
-                Console.WriteLine("INTANDO PULSAR LETRA K OSTIA");
+                Console.WriteLine("Trying to press the key...");
                 Thread.Sleep(200);
             }
-            
+
             SendKeys.SendWait("{+}");
             SendKeys.SendWait("{F}");
             SendKeys.SendWait("{O}");
@@ -213,7 +205,7 @@ namespace AutoAccept_CSGO4.AntiAFK
             Thread.Sleep(70);
             Send(ScanCodeShort.RETURN);
             ReleaseKey(ScanCodeShort.RETURN);
-            
+
             Thread.Sleep(40);
             Send(ScanCodeShort.ESCAPE);
             ReleaseKey(ScanCodeShort.ESCAPE);
@@ -225,9 +217,10 @@ namespace AutoAccept_CSGO4.AntiAFK
             {
                 Send(ScanCodeShort.KEY_K);
                 ReleaseKey(ScanCodeShort.KEY_K);
-                Console.WriteLine("INTANDO PULSAR LETRA K OSTIA");
+                Console.WriteLine("Trying to press the key...");
                 Thread.Sleep(200);
             }
+
             SendKeys.SendWait("{-}");
             SendKeys.SendWait("{F}");
             SendKeys.SendWait("{O}");
@@ -239,53 +232,38 @@ namespace AutoAccept_CSGO4.AntiAFK
             Thread.Sleep(40);
             Send(ScanCodeShort.RETURN);
             ReleaseKey(ScanCodeShort.RETURN);
-            
+
             Thread.Sleep(40);
             Send(ScanCodeShort.ESCAPE);
             ReleaseKey(ScanCodeShort.ESCAPE);
         }
-        
-        
-        
+
         public bool ConsolaAbiertaCheck()
         {
-            bool salir = false;
-            int contador = 0;
-            Console.WriteLine("Comprobando consola");
-            Color color = Color.FromArgb(62, 62, 62);
-            Bitmap bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-            Graphics graphics = Graphics.FromImage(bitmap);
+            var contador = 0;
+            Console.WriteLine("Checking console...");
+            var color = Color.FromArgb(62, 62, 62);
+            var bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            var graphics = Graphics.FromImage(bitmap);
             graphics.CopyFromScreen(0, 0, 0, 0, bitmap.Size);
-            Program program = new Program();
-            
-       
-            for (int x = 0; x < bitmap.Width; x++)
+
+            for (var x = 0; x < bitmap.Width; x++)
             {
-                for (int y = 0; y < bitmap.Height && !salir; y++)
+                for (var y = 0; y < bitmap.Height; y++)
                 {
-                    Color searchPixel = bitmap.GetPixel(x, y);
+                    var searchPixel = bitmap.GetPixel(x, y);
 
                     if (searchPixel == color)
                     {
-
                         if (contador >= 100)
                         {
-                            
                             return true;
-
                         }
                         contador++;
                     }
                 }
             }
-
             return false;
         }
-        
-        
-        
-        
-        
-        
     }
 }
