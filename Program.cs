@@ -18,127 +18,99 @@ namespace AutoAccept_CSGO4
         [DllImport("user32.dll")]
         public static extern bool SetCursorPos(int x, int y);
 
-        [DllImport("user32.dll")]
-        static extern bool GetCursorPos(out Point lpPoint);
-
-        private struct Point
-        {
-            public int X;
-            public int Y;
-        }
 
         private const uint LEFTMOUSE_CLICKDOWN = 0x0002;
         private const uint LEFTMOUSE_CLICKUP = 0x0004;
 
-        private string[] argumentos;
         public static void Main(string[] args)
         {
-            
+            Console.WriteLine(@"
+ _____  _____ _____ _____         ___        _         ___                     _                             
+/  __ \/  ___|  __ \  _  |       / _ \      | |       / _ \                   | |                            
+| /  \/\ `--.| |  \/ | | |______/ /_\ \_   _| |_ ___ / /_\ \ ___ ___ ___ _ __ | |_                           
+| |     `--. \ | __| | | |______|  _  | | | | __/ _ \|  _  |/ __/ __/ _ \ '_ \| __|                          
+| \__/\/\__/ / |_\ \ \_/ /      | | | | |_| | || (_) | | | | (_| (_|  __/ |_) | |_                           
+ \____/\____/ \____/\___/       \_| |_/\__,_|\__\___/\_| |_/\___\___\___| .__/ \__|                          
+                                                                        | |                                  
+                                                                        |_|                                  
+______                       _             _     _                                  __   _____  _____    ___ 
+| ___ \            ____     | |           (_)   | |                                /  | / __  \|____ |  /   |
+| |_/ /_   _      / __ \  __| | __ ___   ___  __| | __ _ _ __ _ __ ___  _   _  ___ `| | `' / /'    / / / /| |
+| ___ \ | | |    / / _` |/ _` |/ _` \ \ / / |/ _` |/ _` | '__| '__/ _ \| | | |/ _ \ | |   / /      \ \/ /_| |
+| |_/ / |_| |   | | (_| | (_| | (_| |\ V /| | (_| | (_| | |  | | | (_) | |_| | (_) || |_./ /___.___/ /\___  |
+\____/ \__, |    \ \__,_|\__,_|\__,_| \_/ |_|\__,_|\__,_|_|  |_|  \___/ \__, |\___/\___/\_____/\____/     |_/
+        __/ |     \____/                                                 __/ |                               
+       |___/                                                            |___/                                
+");
             new Program().Init(args);
         }
 
-        private bool _beep;
-
         private void Init(string[] args)
         {
-            argumentos = args;
             while (true)
             {
                 Thread.Sleep(100);
-                
+
                 var csgOopenChecker = new CsgOopenChecker();
 
-                if (csgOopenChecker.Minimizado() == -1)
+                if (csgOopenChecker.MinimizedCheck() == -1)
                 {
-                    Console.WriteLine("Abre el csgo para empezar");
+                    Console.WriteLine("Open csgo to start");
                 }
-                else if (csgOopenChecker.Minimizado() == 1)
+                else if (csgOopenChecker.MinimizedCheck() == 1)
                 {
-                    Console.WriteLine("Desminimiza el csgo");
+                    Console.WriteLine("Maximize CSGO");
                 }
 
-                while (csgOopenChecker.Minimizado() != 0)
+                while (csgOopenChecker.MinimizedCheck() != 0)
                 {
                     Thread.Sleep(300);
                 }
 
-                if (!_beep)
-                {
-                    var player = new SoundPlayer
-                    {
-                        SoundLocation = Environment.CurrentDirectory + "/Media/beep.wav"
-                    };
-                    
-                    player.PlaySync();
-                    Thread.Sleep(200);
-                    player.Stop();
-                    _beep = true;
-                }
-
-                BuscarPixel();
+                SearchPixel();
                 Thread.Sleep(100);
             }
         }
 
-        private int _xbck;
-        private int _ybck;
-        private int _contador2;
 
-        private void BuscarPixel()
+        //Starts searching for the accept button in the screen.
+        private void SearchPixel()
         {
-            var salir = false;
-            var contador = 0;
+            var counter = 0;
+            var exitLoop = false;
             Console.WriteLine("Searching button...");
+
+            //Accept button color declaration.
             var color = Color.FromArgb(76, 175, 80);
             var color2 = Color.FromArgb(90, 203, 94);
 
             var bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             var graphics = Graphics.FromImage(bitmap);
             graphics.CopyFromScreen(0, 0, 0, 0, bitmap.Size);
-            for (var x = 0; x < bitmap.Width; x++)
+
+
+            //Checks the pixels from x:0 and y:0 to your screen resolution.
+            for (var x = 0; x < bitmap.Width && !exitLoop; x++)
             {
-                for (var y = 0; y < bitmap.Height && !salir; y++)
+                for (var y = 0; y < bitmap.Height; y++)
                 {
                     var searchPixel = bitmap.GetPixel(x, y);
+                    //If the current checking color matches the declared colors it will add +1 to the counter.
+                    //This counter is used to prevent to click any other matching color that is not the accept button.
+                    //The csgo accept button contains more than 9000 green pixels.
 
                     if (searchPixel == color || searchPixel == color2)
                     {
-                        if (contador >= 9000)
+                        if (counter >= 9000)
                         {
-                            if (_xbck != x && _ybck != y)
-                            {
-                                SetCursorPos(x, y);
-                            }
-
                             Thread.Sleep(200);
-
-
-                            var bitmap2 = new Bitmap(Screen.PrimaryScreen.Bounds.Width,
-                                Screen.PrimaryScreen.Bounds.Height);
-                            var graphics2 = Graphics.FromImage(bitmap2);
-                            graphics2.CopyFromScreen(0, 0, 0, 0, bitmap2.Size);
-                            var searchPixel2 = bitmap2.GetPixel(x, y);
-                            if (searchPixel2 == color2)
-                            {
-                                SetCursorPos(x, y);
-                                Console.WriteLine("Button found! Pressing...");
-                                ClickF(x, y);
-                                Thread.Sleep(1000);
-                            }
-
-                            if (_contador2 <= 1)
-                            {
-                                _xbck = x;
-                                _ybck = y;
-                            }
-
-                            _contador2++;
-
-                            salir = true;
+                            SetCursorPos(x, y);
+                            Console.WriteLine("Button found! Pressing...");
+                            ClickF(x, y);
+                            exitLoop = true;
                             break;
                         }
-
-                        contador++;
+                        counter++;
                     }
                 }
             }
@@ -148,29 +120,9 @@ namespace AutoAccept_CSGO4
         {
             Console.WriteLine("Clicking...");
             SetCursorPos(x, y);
-            Thread.Sleep(50);
-            SetCursorPos(x, y);
             mouse_event(LEFTMOUSE_CLICKDOWN, 0, 0, 0, 0);
             mouse_event(LEFTMOUSE_CLICKUP, 0, 0, 0, 0);
-            var lol = new AfkCommands();
             Thread.Sleep(200);
-
-            foreach (var argu in argumentos)
-            {
-                if (argu.ToLower().Equals("+left"))
-                {
-                    lol.PlusLeft();
-                    Console.WriteLine("Enabled +left");
-                    Thread.Sleep(250);
-                }
-
-                else if (argu.ToLower().Equals("+forward"))
-                {
-                    lol.PlusForward();
-                    Console.WriteLine("Enabled +forward");
-                    Thread.Sleep(250);
-                }
-            }
         }
     }
 }

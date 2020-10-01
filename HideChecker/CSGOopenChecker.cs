@@ -15,7 +15,7 @@ namespace AutoAccept_CSGO4.HideChecker
         private static extern bool IsIconic(IntPtr hWnd);
 
         
-        public int Minimizado()
+        public int MinimizedCheck()
         {
             var processes = Process.GetProcessesByName("csgo");
             if (processes.Length != 1) return -1;

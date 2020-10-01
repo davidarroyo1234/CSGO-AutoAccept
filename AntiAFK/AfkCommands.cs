@@ -5,13 +5,22 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
+
+//
+//
+//
+// 
+// This code is to automate some actions like +left,+forward or whatever command you want to introduce in the console
+// Currently is not being used and is not requiered in order to work.
+//
+//
+//
 namespace AutoAccept_CSGO4.AntiAFK
 {
     public class AfkCommands
     {
-        /// <summary>
+
         /// Declaration of external SendInput method
-        /// </summary>
         [DllImport("user32.dll")]
         internal static extern uint SendInput(
             uint nInputs,
@@ -103,9 +112,9 @@ namespace AutoAccept_CSGO4.AntiAFK
             KEY_K = 37
         }
 
-        /// <summary>
+
         /// Define HARDWAREINPUT struct
-        /// </summary>
+
         [StructLayout(LayoutKind.Sequential)]
         public struct HARDWAREINPUT
         {
