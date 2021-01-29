@@ -2,7 +2,7 @@
 Automatically accepts a csgo match when found VAC risk free.
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/davidarroyo1234/CSGO-AutoAccept)](https://github.com/davidarroyo1234/CSGO-AutoAccept/releases)
-[![Maintenance](https://img.shields.io/maintenance/yes/2020)](https://github.com/davidarroyo1234/CSGO-AutoAccept)
+[![Maintenance](https://img.shields.io/maintenance/yes/2021)](https://github.com/davidarroyo1234/CSGO-AutoAccept)
 [![GitHub All Releases](https://img.shields.io/github/downloads/davidarroyo1234/CSGO-AutoAccept/total)](https://github.com/davidarroyo1234/CSGO-AutoAccept/releases)
 
 How to use it:
