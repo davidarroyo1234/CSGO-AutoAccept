@@ -12,4 +12,4 @@ How to use it:
  3. Open csgo and search for a game.
  4. When the match is ready it will accept it for you :)
 
-*CSGO must be maximized in order to work at leats for now*
+*CSGO must be maximized in order to work at least for now*
